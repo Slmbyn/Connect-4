@@ -60,11 +60,11 @@ h1 {
     gap: 1vmin;
     margin-top: -4vmin;
     /* border for the board */
-    /* border: 5vmin solid lightgrey;
+    border: 5vmin solid lightgrey;
     border-width: 0.2vmin;
-    border-radius: 1%;
-    padding: 2vmin;
-    background-color: rgba(211, 211, 211, 0.342); */
+    border-radius: 1.5%;
+    padding: 1.5vmin;
+    background-color: rgba(211, 211, 211, 0.342);
 }
 
 #board > div {

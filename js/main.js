@@ -31,7 +31,12 @@ const markerEls = [...document.querySelectorAll('#markers > div')];
 	/*----- event listeners -----*/
 document.getElementById('markers').addEventListener('click', handleDrop)
 playAgainBtn.addEventListener('click', init);
+
+
+
 	/*----- functions -----*/
+
+
 
 init();
     // initialize all state, then call render()
@@ -71,16 +76,47 @@ function handleDrop(event) {
 //check for winner
 //return null if no winner, 1/-1 if a player has won, 'T' if its a tie
 function getWinner(colIdx, rowIdx) {
-    return checkVerticalWin(colIdx, rowIdx);
+    return checkVerticalWin(colIdx, rowIdx) ||
+    checkHorizontalWin(colIdx,rowIdx) ||
+    checkDiagonalWinNWSE(colIdx,rowIdx);
+    checkDiagonalWinNESW(colIdx,rowIdx); //checking diagonally in NorthEast and SouthWest directions
+}
+
+function checkDiagonalWinNWSE(colIdx,rowIdx) {
+    const adjCountNW = countAdjacent(colIdx, rowIdx, -1, 1); 
+    const adjCountSE = countAdjacent(colIdx, rowIdx, 1, -1); 
+    return (adjCountNW + adjCountSE) >= 3 ? board[colIdx][rowIdx] : null;
+}
+function checkDiagonalWinNESW(colIdx,rowIdx) {
+    const adjCountNE = countAdjacent(colIdx, rowIdx, 1, 1); 
+    const adjCountSW = countAdjacent(colIdx, rowIdx, -1, -1); 
+    return (adjCountNE + adjCountSW) >= 3 ? board[colIdx][rowIdx] : null;
+}
+function checkHorizontalWin(colIdx,rowIdx) {
+    const adjCountLeft = countAdjacent(colIdx, rowIdx, -1, 0); // we leave the row at 0 because in this case only the column would change, and put column at -1 cause it decreases in that direction
+    const adjCountRight = countAdjacent(colIdx, rowIdx, 1, 0); // we leave the row at 0 because in this case only the column would change, and put column at 1 cause it increases in that direction
+    return (adjCountLeft + adjCountRight) >= 3 ? board[colIdx][rowIdx] : null;
 }
 
 function checkVerticalWin(colIdx,rowIdx) {
-    return countAdjacent(colIdx, rowIdx, 0, -1) === 3 ? board[colIdx, rowIdx] : null;
+    return countAdjacent(colIdx, rowIdx, 0, -1) === 3 ? board[colIdx][rowIdx] : null; // we leave the column at 0 because in this case only the row would change
 }
 
 function countAdjacent(colIdx, rowIdx, colOffset, rowOffset) {
     // shortcut variable to the player value
     const player = board[colIdx][rowIdx];
+    // Track count of adjacent cells with same player value
+    let count = 0;
+    // initialize the new coordinates
+    colIdx += colOffset;
+    rowIdx += rowOffset;
+    while (board[colIdx] !== undefined && board[colIdx][rowIdx] !== undefined && board[colIdx][rowIdx] === player) {   // ensure that calIdx is within bounds of the board array
+    //then it counts how many purple or orange there are as long as the criterea in the perameter is met (i.e its not trying to count off the board)
+    count++ ;
+    colIdx += colOffset;
+    rowIdx += rowOffset;
+    }
+    return count;
 }
 
 
