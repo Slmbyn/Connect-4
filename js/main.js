@@ -5,30 +5,22 @@ const COLORS = {
     '-1': 'orange'
 };
 
-	/*----- state variables -----*/ //things that will need to be able to change during the game
-//  turn: 1 & -1 -> represents each player by color
-//  board: 2D array (array of arrays)
-        //'null' to represent that no one is there yet
-        // 1 or -1 represents the player at that cell
+	/*----- state variables -----*/ 
 
-let board; //array of all 7 column arrays
-let turn; // 1 or -1
-let winner // null = no winner; 1 or -1 = winner; 'T'=tie
+let board;
+let turn;
+let winner;
 
-
-
-//  winner:
-        // null -> no winner yet
-        // 1/-1 -> winner
-        // 'T' -> tie
 
 	/*----- cached elements  -----*/
+
 const messageEl = document.querySelector('h1');
 const playAgainBtn = document.querySelector('button');
 const markerEls = [...document.querySelectorAll('#markers > div')];
 
 
 	/*----- event listeners -----*/
+
 document.getElementById('markers').addEventListener('click', handleDrop)
 playAgainBtn.addEventListener('click', init);
 
